@@ -3,231 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support BALU JAMISETTI</title>
+    <title>Payment Gateway | BALU JAMISETTI</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6c63ff;
-            --secondary: #4d44db;
-            --accent: #ff6584;
-            --light: #f8f9fa;
-            --dark: #343a40;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            --primary: #5F259F; /* PhonePe purple */
+            --gpay-blue: #4285F4; /* Google Pay blue */
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
         
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-            min-height: 100vh;
+            background-color: var(--light-bg);
             padding: 2rem;
-            color: var(--dark);
+            min-height: 100vh;
         }
         
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            animation: fadeIn 0.8s ease-out;
+            animation: fadeIn 0.8s;
         }
         
         header {
             text-align: center;
-            margin-bottom: 2.5rem;
-            animation: slideDown 0.6s ease-out;
+            margin-bottom: 3rem;
         }
         
         h1 {
-            color: var(--primary);
+            color: #333;
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
         
-        .subtitle {
-            color: var(--dark);
-            opacity: 0.8;
-            font-weight: 300;
-        }
-        
-        .payment-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            justify-content: center;
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
         }
         
         .payment-card {
             background: white;
             border-radius: 16px;
             padding: 2rem;
-            width: 100%;
-            max-width: 350px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            animation: fadeInUp 0.6s ease-out;
-            animation-fill-mode: backwards;
-        }
-        
-        .payment-card:nth-child(1) {
-            animation-delay: 0.2s;
-        }
-        
-        .payment-card:nth-child(2) {
-            animation-delay: 0.4s;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s;
         }
         
         .payment-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
         }
         
-        .payment-card h2 {
-            color: var(--secondary);
-            margin-bottom: 1rem;
+        .payment-card.phonepe {
+            border-top: 4px solid var(--primary);
+        }
+        
+        .payment-card.gpay {
+            border-top: 4px solid var(--gpay-blue);
+        }
+        
+        .card-header {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
         }
         
-        .payment-card h2 svg {
-            width: 24px;
-            height: 24px;
+        .card-header h2 {
+            font-size: 1.5rem;
+        }
+        
+        .phonepe .card-header h2 {
+            color: var(--primary);
+        }
+        
+        .gpay .card-header h2 {
+            color: var(--gpay-blue);
         }
         
         .qr-container {
             background: white;
             padding: 1rem;
+            margin: 1.5rem auto;
+            width: fit-content;
             border-radius: 12px;
-            margin: 1.5rem 0;
-            display: inline-block;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
         
         .qr-code {
-            width: 180px;
-            height: 180px;
-            object-fit: contain;
+            width: 200px;
+            height: 200px;
+            display: block;
             border: 1px solid #eee;
             border-radius: 8px;
         }
         
-        .upi-id {
-            background: var(--light);
-            padding: 0.8rem;
-            border-radius: 8px;
-            font-family: monospace;
-            margin: 1rem 0;
-            word-break: break-all;
+        .payment-details {
+            margin: 1.5rem 0;
         }
         
         .action-btn {
             display: inline-block;
-            background: var(--primary);
-            color: white;
-            padding: 0.8rem 1.5rem;
+            padding: 0.8rem 2rem;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
-            margin-top: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .phonepe .action-btn {
+            background: var(--primary);
+        }
+        
+        .gpay .action-btn {
+            background: var(--gpay-blue);
         }
         
         .action-btn:hover {
-            background: var(--secondary);
+            opacity: 0.9;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(108, 99, 255, 0.4);
         }
         
-        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
-        }
-        
-        @keyframes slideDown {
-            from { 
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes fadeInUp {
-            from { 
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .payment-options {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .payment-card {
-                width: 100%;
-            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Support BALU JAMISETTI</h1>
-            <p class="subtitle">Send payments securely via UPI</p>
+            <h1>Send Payment</h1>
+            <p>Scan QR code or click payment link</p>
         </header>
         
-        <div class="payment-options">
-            <div class="payment-card">
-                <h2>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#5F259F">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"/>
-                    </svg>
-                    PhonePe
-                </h2>
-                <p>Scan QR code or click below to pay instantly</p>
+        <div class="payment-grid">
+            <!-- PhonePe Card -->
+            <div class="payment-card phonepe">
+                <div class="card-header">
+                    <h2>PhonePe</h2>
+                </div>
                 
                 <div class="qr-container">
                     <img src="phpaycode.jpg" alt="PhonePe QR Code" class="qr-code">
                 </div>
                 
-                <div class="upi-id">9121058755@ybl</div>
+                <div class="payment-details">
+                    <p><strong>UPI ID:</strong> 9121058755@ybl</p>
+                </div>
                 
                 <a href="upi://pay?pa=9121058755@ybl&pn=BALUJAMISETTI" class="action-btn">
                     Pay with PhonePe
                 </a>
             </div>
             
-            <div class="payment-card">
-                <h2>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4285F4">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"/>
-                    </svg>
-                    Google Pay
-                </h2>
-                <p>Scan QR code or click below to pay instantly</p>
-                
-                <div class="qr-container">
-                    <img src="gpaycode.jpg" alt="Google Pay QR Code" class="qr-code">
+            <!-- Google Pay Card -->
+            <div class="payment-card gpay">
+                <div class="card-header">
+                    <h2>Google Pay</h2>
                 </div>
                 
-                <div class="upi-id">balujamisetti1-1@oksbi</div>
+                <div class="qr-container">
+                    <img src="gpaycode.png" alt="Google Pay QR Code" class="qr-code">
+                </div>
+                
+                <div class="payment-details">
+                    <p><strong>UPI ID:</strong> balujamisetti1-1@oksbi</p>
+                </div>
                 
                 <a href="tez://upi/pay?pa=balujamisetti1-1@oksbi&pn=BALUJAMISETTI" class="action-btn">
                     Pay with Google Pay
